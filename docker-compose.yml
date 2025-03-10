@@ -1,0 +1,34 @@
+services:
+  backend:
+    image: expense-tracker
+#    build:
+#      context: C:/Users/aryan/OneDrive/Desktop/ExpenseTracker-Adding-security
+#      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/course
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+
+  frontend:
+    image: react-vite-app
+    ports:
+      - "5174:5173"
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: course
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
